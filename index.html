@@ -152,8 +152,8 @@
                     if(operand==='/')
                         result = divide(firstNum, secondNum);
                       console.log(`Result is ${result}`);
-                    screen.textContent=result;
-                    firstNum = result;
+                    screen.textContent=result.toFixed(2);
+                    firstNum = result.toFixed(2);
                     operand = null;
                     secondNum = null;
                 }
