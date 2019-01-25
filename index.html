@@ -1,0 +1,201 @@
+<html>
+    <head>
+        <style>
+            .container
+            {
+                border: 5px solid red;
+                width: 250px;
+                height:300px;
+               position:absolute;
+               margin:auto;
+               left:0;
+               right:0;
+            }
+            h1
+            {
+                text-align:center;
+            }
+            .Btn input
+            {
+                display:inline-block;
+                height: 30px;
+                width:30px;
+                margin:5px;
+            }
+          
+            #screen
+            {
+                height: 40px;
+                width: 160px;
+                margin-bottom:20px;
+            }
+            .Btn
+            {
+                margin:37px;
+            }
+
+            #screen
+            {
+                height: 40px;
+                width: 160px;
+                border: 1px solid black;
+                margin:20px 40px 0px 40px;
+                left:0;
+                right:0;
+                font-size:32px;
+                text-align:right;
+            }
+
+            #clear
+            {
+                width: 162px;
+            }
+
+        </style>
+
+    </head>
+    <body>
+        <h1>Calculator</h1>
+        <div class='container'>
+            <div id="screen"></div>
+            <div class="Btn">
+            <input type='button' id="num" value="1"></input>
+            <input type='button' id="num" value="2"></input>
+            <input type='button' id="num" value="3"></input>
+            <input type='button' id="num" value="4"></input>
+            <input type='button' id="num" value="5"></input>
+            <input type='button' id="num" value="6"></input>
+            <input type='button' id="num" value="7"></input>
+            <input type='button' id="num" value="8"></input>
+            <input type='button' id="num" value="9"></input>
+            <input type='button' id="num" value="0"></input>
+            <input type='button' id="num" value="."></input>
+            <input type='button' id="operator" value="+"></input>
+            <input type='button' id="operator" value="-"></input>
+            <input type='button' id="operator" value="*"></input>
+            <input type='button' id="operator" value="/"></input>
+            <input type='button' id="equal" value="="></input>
+            <input type='button' id="clear" value="C"></input>
+            
+            </div>
+           
+        </div>
+
+        <script>
+            let firstNum=null;
+            let secondNum=null;
+            let operand=null;
+            let result = 0;
+            const numberBtns = document.querySelectorAll('.Btn #num');
+            const operatorBtns = document.querySelectorAll('.Btn #operator');
+            const equalBtn = document.querySelector('#equal');
+            const clearBtn = document.querySelector('#clear');
+            const screen = document.getElementById('screen');
+            const decimal = document.getElementById('decimal');
+            
+            
+            numberBtns.forEach(numberBtn => numberBtn.addEventListener('click',(e) => {
+                console.log("clicked number buttons");
+                if(operand == null && secondNum == null)
+                {
+                    console.log(firstNum);
+                    if(firstNum==null || firstNum==result)
+                        firstNum = e.target.value;
+                    else if(firstNum!=null)
+                         { console.log("concating firstNum with next character");
+                        firstNum = firstNum + e.target.value;
+                         }
+                         screen.textContent=firstNum;
+                   
+                    console.log(`first number is ${firstNum}`);
+                    
+                }
+       //         firstNum = parseFloat(firstNum);
+                if(firstNum!=null && operand!=null)
+                {
+                    if(secondNum==null)
+                    secondNum = e.target.value;
+                    else
+                    secondNum = secondNum+e.target.value;
+                    console.log(`second number is ${secondNum}`);
+                    screen.textContent=screen.textContent+e.target.value;
+                }
+            }));
+
+          /*  decimal.addEventListener('click',(e) => {
+                        console.log('inside decimal');
+                        firstNum = firstNum + e.target.value;
+                        screen.textContent=firstNum;
+                    })  */
+
+
+            operatorBtns.forEach(operatorBtn => operatorBtn.addEventListener('click',(e) => {
+                if(firstNum!=null && operand==null && secondNum == null)
+                {
+                    operand = e.target.value;
+                    console.log(`operator is ${operand}`);
+                    screen.textContent=screen.textContent+operand;
+                }
+            }));
+
+            equalBtn.addEventListener('click',(e) => {
+                console.log(e);
+                if(firstNum!=null & operand!=null && secondNum != null)
+                {
+                    
+                    if(operand==='+')
+                        result = add(parseFloat(firstNum), parseFloat(secondNum));
+                    if(operand==='-')
+                        result = subtract(firstNum, secondNum);
+                    if(operand==='*')
+                        result = multiply(firstNum, secondNum);
+                    if(operand==='/')
+                        result = divide(firstNum, secondNum);
+                      console.log(`Result is ${result}`);
+                    screen.textContent=result;
+                    firstNum = result;
+                    operand = null;
+                    secondNum = null;
+                }
+            });
+
+            clearBtn.addEventListener('click',(e) => clear());
+
+            function add(firstNum, secondNum)
+            {
+                return firstNum + secondNum;
+            }
+
+            function subtract(firstNum, secondNum)
+            {
+                return firstNum - secondNum;
+            }
+
+            function multiply(firstNum, secondNum)
+            {
+                return firstNum * secondNum;
+            }
+
+            function divide(firstNum, secondNum)
+            {
+                if(secondNum==0)
+                {
+                   alert("Division by 0 not possible");
+                    return 0;
+                }
+                return firstNum / secondNum;
+            }
+
+            function clear()
+            {
+                firstNum = null;
+                operand = null;
+                secondNum = null;
+                screen.textContent="";
+            }
+
+        </script>
+
+
+    </body>
+</html>
